@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Dashboard" },
   { href: "/showcauses", label: "Show Causes" },
+  { href: "/submit", label: "Submit" },
 ];
 
 export default function Header() {
