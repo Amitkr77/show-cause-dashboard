@@ -6,7 +6,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const [total, byStatusAgg, byDistrictAgg, dailyTrendAgg] =
+    const [total, byStatusAgg, byDistrictAgg, byActionAgg, dailyTrendAgg] =
       await Promise.all([
         Showcause.countDocuments(),
         Showcause.aggregate([
@@ -16,6 +16,10 @@ export async function GET() {
           { $group: { _id: "$district", count: { $sum: 1 } } },
           { $sort: { count: -1 } },
           { $limit: 15 },
+        ]),
+        Showcause.aggregate([
+          { $group: { _id: "$actionTaken", count: { $sum: 1 } } },
+          { $sort: { count: -1 } },
         ]),
         Showcause.aggregate([
           {
@@ -55,6 +59,13 @@ export async function GET() {
       })
     );
 
+    const byAction = byActionAgg.map(
+      (item: { _id: string; count: number }) => ({
+        action: item._id,
+        count: item.count,
+      })
+    );
+
     const dailyTrend = dailyTrendAgg.map(
       (item: { _id: string; count: number }) => ({
         date: item._id,
@@ -62,7 +73,13 @@ export async function GET() {
       })
     );
 
-    return NextResponse.json({ total, byStatus, byDistrict, dailyTrend });
+    return NextResponse.json({
+      total,
+      byStatus,
+      byDistrict,
+      byAction,
+      dailyTrend,
+    });
   } catch (error) {
     console.error("Stats error:", error);
     return NextResponse.json(

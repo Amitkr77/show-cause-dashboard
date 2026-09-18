@@ -13,20 +13,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/utils";
+import { ACTION_LABELS } from "@/lib/constants";
+import { STATUS_LABELS } from "@/lib/constants";
 import type { Showcause, ShowcauseStatus } from "@/types";
 
-const statusVariant: Record<ShowcauseStatus, "default" | "secondary" | "destructive" | "outline"> = {
-  NEW: "default",
-  UNDER_REVIEW: "secondary",
-  RESOLVED: "outline",
-  CLOSED: "outline",
-};
-
-const statusLabel: Record<ShowcauseStatus, string> = {
-  NEW: "New",
-  UNDER_REVIEW: "Under Review",
-  RESOLVED: "Resolved",
-  CLOSED: "Closed",
+const statusStyles: Record<ShowcauseStatus, string> = {
+  NEW: "bg-amber-100 text-amber-700",
+  UNDER_REVIEW: "bg-violet-100 text-violet-700",
+  RESOLVED: "bg-emerald-100 text-emerald-700",
+  CLOSED: "bg-gray-100 text-gray-600",
 };
 
 interface DataTableProps {
@@ -102,7 +97,6 @@ export default function DataTable({
               <SortHeader field="hospitalName">Hospital</SortHeader>
               <TableHead className="hidden md:table-cell">Hospital ID</TableHead>
               <SortHeader field="district" className="hidden sm:table-cell">District</SortHeader>
-              <TableHead className="hidden lg:table-cell">Block</TableHead>
               <SortHeader field="status">Status</SortHeader>
               <TableHead className="hidden lg:table-cell">Action Taken</TableHead>
               <SortHeader field="submittedAt" className="hidden sm:table-cell">Submitted</SortHeader>
@@ -120,14 +114,13 @@ export default function DataTable({
                 </TableCell>
                 <TableCell className="hidden md:table-cell">{item.hospitalId}</TableCell>
                 <TableCell className="hidden sm:table-cell">{item.district}</TableCell>
-                <TableCell className="hidden lg:table-cell">{item.blockTaluka}</TableCell>
                 <TableCell>
-                  <Badge variant={statusVariant[item.status]}>
-                    {statusLabel[item.status]}
+                  <Badge className={`text-xs font-medium ${statusStyles[item.status]}`}>
+                    {STATUS_LABELS[item.status]}
                   </Badge>
                 </TableCell>
                 <TableCell className="hidden lg:table-cell max-w-[200px] truncate">
-                  {item.actionTaken}
+                  {ACTION_LABELS[item.actionTaken] || item.actionTaken}
                 </TableCell>
                 <TableCell className="hidden sm:table-cell text-muted-foreground">
                   {formatDate(item.submittedAt)}

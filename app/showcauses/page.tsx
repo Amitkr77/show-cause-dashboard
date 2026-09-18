@@ -11,8 +11,8 @@ import type { ShowcauseFilters } from "@/types";
 const defaultFilters: ShowcauseFilters = {
   search: "",
   status: "",
+  actionTaken: "",
   district: "",
-  blockTaluka: "",
   startDate: "",
   endDate: "",
   sortBy: "createdAt",

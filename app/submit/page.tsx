@@ -5,12 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ACTION_OPTIONS } from "@/lib/constants";
 
 const initialForm = {
   hospitalName: "",
   hospitalId: "",
   district: "",
-  blockTaluka: "",
   remarks: "",
   requiredDocuments: "",
   actionTaken: "",
@@ -35,6 +42,12 @@ export default function SubmitPage() {
     setLoading(true);
     setMessage(null);
 
+    if (!form.actionTaken) {
+      setMessage({ type: "error", text: "Please select an action" });
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/showcauses/submit", {
         method: "POST",
@@ -55,7 +68,10 @@ export default function SubmitPage() {
         throw new Error(data.error || "Submission failed");
       }
 
-      setMessage({ type: "success", text: "Show cause notice submitted successfully!" });
+      setMessage({
+        type: "success",
+        text: "Show cause notice submitted successfully!",
+      });
       setForm(initialForm);
     } catch (err) {
       setMessage({
@@ -69,7 +85,9 @@ export default function SubmitPage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Submit Show Cause Notice</h1>
+      <h1 className="text-xl sm:text-2xl font-bold mb-6">
+        Submit Show Cause Notice
+      </h1>
 
       <Card>
         <CardHeader>
@@ -119,15 +137,25 @@ export default function SubmitPage() {
               </div>
               <div className="space-y-1">
                 <label className="text-sm font-medium">
-                  Block / Taluka <span className="text-red-500">*</span>
+                  Action Taken <span className="text-red-500">*</span>
                 </label>
-                <Input
-                  name="blockTaluka"
-                  value={form.blockTaluka}
-                  onChange={handleChange}
-                  placeholder="e.g. Patna Sadar"
-                  required
-                />
+                <Select
+                  value={form.actionTaken}
+                  onValueChange={(val) =>
+                    setForm((prev) => ({ ...prev, actionTaken: val }))
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select action..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ACTION_OPTIONS.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -148,26 +176,15 @@ export default function SubmitPage() {
             <div className="space-y-1">
               <label className="text-sm font-medium">
                 Required Documents{" "}
-                <span className="text-muted-foreground text-xs">(optional, comma-separated)</span>
+                <span className="text-muted-foreground text-xs">
+                  (optional, comma-separated)
+                </span>
               </label>
               <Input
                 name="requiredDocuments"
                 value={form.requiredDocuments}
                 onChange={handleChange}
                 placeholder="e.g. Inspection Report, License Copy"
-              />
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-sm font-medium">
-                Action Taken <span className="text-red-500">*</span>
-              </label>
-              <Input
-                name="actionTaken"
-                value={form.actionTaken}
-                onChange={handleChange}
-                placeholder="e.g. Show cause notice issued"
-                required
               />
             </div>
 

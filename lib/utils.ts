@@ -11,8 +11,8 @@ export function formatDate(date: string | Date): string {
 export function buildMongoFilter(params: {
   search?: string;
   status?: string;
+  actionTaken?: string;
   district?: string;
-  blockTaluka?: string;
   startDate?: string;
   endDate?: string;
 }): Record<string, unknown> {
@@ -31,12 +31,12 @@ export function buildMongoFilter(params: {
     filter.status = params.status;
   }
 
-  if (params.district) {
-    filter.district = { $regex: params.district, $options: "i" };
+  if (params.actionTaken) {
+    filter.actionTaken = params.actionTaken;
   }
 
-  if (params.blockTaluka) {
-    filter.blockTaluka = { $regex: params.blockTaluka, $options: "i" };
+  if (params.district) {
+    filter.district = { $regex: params.district, $options: "i" };
   }
 
   if (params.startDate || params.endDate) {

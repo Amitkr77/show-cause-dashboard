@@ -4,7 +4,6 @@ export const createShowcauseSchema = z.object({
   hospitalName: z.string().min(1, "Hospital name is required").trim(),
   hospitalId: z.string().min(1, "Hospital ID is required").trim(),
   district: z.string().min(1, "District is required").trim(),
-  blockTaluka: z.string().min(1, "Block/Taluka is required").trim(),
   remarks: z.string().min(1, "Remarks are required"),
   requiredDocuments: z
     .union([z.array(z.string()), z.string()])
@@ -35,8 +34,8 @@ export const updateShowcauseSchema = z.object({
 export const showcauseQuerySchema = z.object({
   search: z.string().optional(),
   status: z.enum(["NEW", "UNDER_REVIEW", "RESOLVED", "CLOSED"]).optional(),
+  actionTaken: z.string().optional(),
   district: z.string().optional(),
-  blockTaluka: z.string().optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
   sortBy: z.string().optional().default("createdAt"),

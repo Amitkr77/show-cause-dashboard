@@ -11,7 +11,6 @@ export interface Showcause {
   hospitalName: string;
   hospitalId: string;
   district: string;
-  blockTaluka: string;
   remarks: string;
   requiredDocuments: string[];
   actionTaken: string;
@@ -37,14 +36,15 @@ export interface StatsResponse {
   total: number;
   byStatus: Record<ShowcauseStatus, number>;
   byDistrict: { district: string; count: number }[];
+  byAction: { action: string; count: number }[];
   dailyTrend: { date: string; count: number }[];
 }
 
 export interface ShowcauseFilters {
   search?: string;
   status?: ShowcauseStatus | "";
+  actionTaken?: string;
   district?: string;
-  blockTaluka?: string;
   startDate?: string;
   endDate?: string;
   sortBy?: string;

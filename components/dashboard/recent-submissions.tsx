@@ -2,101 +2,72 @@
 
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useShowcauses } from "@/hooks/use-showcauses";
 import { formatDate } from "@/lib/utils";
+import { ACTION_LABELS, STATUS_LABELS } from "@/lib/constants";
 import type { ShowcauseStatus } from "@/types";
 
-const statusVariant: Record<ShowcauseStatus, "default" | "secondary" | "destructive" | "outline"> = {
-  NEW: "default",
-  UNDER_REVIEW: "secondary",
-  RESOLVED: "outline",
-  CLOSED: "outline",
-};
-
-const statusLabel: Record<ShowcauseStatus, string> = {
-  NEW: "New",
-  UNDER_REVIEW: "Under Review",
-  RESOLVED: "Resolved",
-  CLOSED: "Closed",
+const statusStyles: Record<ShowcauseStatus, string> = {
+  NEW: "bg-amber-100 text-amber-700 hover:bg-amber-100",
+  UNDER_REVIEW: "bg-violet-100 text-violet-700 hover:bg-violet-100",
+  RESOLVED: "bg-emerald-100 text-emerald-700 hover:bg-emerald-100",
+  CLOSED: "bg-gray-100 text-gray-600 hover:bg-gray-100",
 };
 
 export default function RecentSubmissions() {
   const { data, isLoading } = useShowcauses({
-    limit: 10,
+    limit: 8,
     sortBy: "createdAt",
     sortOrder: "desc",
   });
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-base">Recent Submissions</CardTitle>
+    <Card className="shadow-sm">
+      <CardHeader className="flex flex-row items-center justify-between pb-3">
+        <CardTitle className="text-sm font-medium text-muted-foreground">
+          Recent Submissions
+        </CardTitle>
         <Link
           href="/showcauses"
-          className="text-sm text-muted-foreground hover:text-foreground"
+          className="text-xs text-blue-600 hover:text-blue-700 font-medium"
         >
-          View all
+          View all →
         </Link>
       </CardHeader>
       <CardContent>
         {isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Skeleton key={i} className="h-10 w-full" />
+              <Skeleton key={i} className="h-14 w-full rounded-lg" />
             ))}
           </div>
         ) : !data?.data?.length ? (
-          <p className="text-center py-8 text-muted-foreground">
+          <p className="text-center py-10 text-muted-foreground text-sm">
             No submissions yet
           </p>
         ) : (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Hospital</TableHead>
-                  <TableHead className="hidden sm:table-cell">District</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="hidden sm:table-cell">Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.data.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell>
-                      <Link
-                        href={`/showcauses/${item._id}`}
-                        className="hover:underline font-medium"
-                      >
-                        {item.hospitalName}
-                      </Link>
-                      <div className="text-xs text-muted-foreground sm:hidden">
-                        {item.district} &middot; {formatDate(item.submittedAt)}
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell">{item.district}</TableCell>
-                    <TableCell>
-                      <Badge variant={statusVariant[item.status]}>
-                        {statusLabel[item.status]}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell text-muted-foreground">
-                      {formatDate(item.submittedAt)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <div className="space-y-2">
+            {data.data.map((item) => (
+              <Link
+                key={item._id}
+                href={`/showcauses/${item._id}`}
+                className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors group"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-sm truncate group-hover:text-blue-600 transition-colors">
+                    {item.hospitalName}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {item.district} · {ACTION_LABELS[item.actionTaken] || item.actionTaken} · {formatDate(item.submittedAt)}
+                  </p>
+                </div>
+                <Badge className={`ml-3 shrink-0 text-xs font-medium ${statusStyles[item.status]}`}>
+                  {STATUS_LABELS[item.status]}
+                </Badge>
+              </Link>
+            ))}
           </div>
         )}
       </CardContent>

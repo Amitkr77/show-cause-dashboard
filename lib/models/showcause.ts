@@ -17,7 +17,6 @@ export interface IShowcause extends Document {
   hospitalName: string;
   hospitalId: string;
   district: string;
-  blockTaluka: string;
   remarks: string;
   requiredDocuments: string[];
   actionTaken: string;
@@ -43,7 +42,6 @@ const showcauseSchema = new Schema<IShowcause>(
     hospitalName: { type: String, required: true, trim: true },
     hospitalId: { type: String, required: true, trim: true, index: true },
     district: { type: String, required: true, trim: true, index: true },
-    blockTaluka: { type: String, required: true, trim: true, index: true },
     remarks: { type: String, required: true },
     requiredDocuments: { type: [String], default: [] },
     actionTaken: { type: String, required: true },

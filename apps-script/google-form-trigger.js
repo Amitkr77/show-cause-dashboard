@@ -14,8 +14,8 @@ const API_KEY = "c8107110-e7ef-4f51-97b2-31a338035a1c";
 /**
  * Column mapping (adjust if your form columns differ):
  * A(0)=Timestamp, B(1)=Hospital Name, C(2)=Hospital ID,
- * D(3)=District, E(4)=Block/Taluka, F(5)=Remarks,
- * G(6)=Required Documents, H(7)=Action Taken
+ * D(3)=District, E(4)=Remarks,
+ * F(5)=Required Documents, G(6)=Action Taken
  */
 
 function onFormSubmit(e) {
@@ -31,17 +31,16 @@ function onFormSubmit(e) {
     hospitalName: String(data[1] || "").trim(),
     hospitalId: String(data[2] || "").trim(),
     district: String(data[3] || "").trim(),
-    blockTaluka: String(data[4] || "").trim(),
-    remarks: String(data[5] || "").trim(),
-    requiredDocuments: data[6]
-      ? String(data[6])
+    remarks: String(data[4] || "").trim(),
+    requiredDocuments: data[5]
+      ? String(data[5])
           .split(",")
           .map(function (s) {
             return s.trim();
           })
           .filter(Boolean)
       : [],
-    actionTaken: String(data[7] || "").trim(),
+    actionTaken: String(data[6] || "").trim(),
     sourceId: sheet.getName() + "!A" + row,
   };
 
@@ -92,7 +91,6 @@ function testConnection() {
     hospitalName: "Test Hospital",
     hospitalId: "TEST-001",
     district: "Test District",
-    blockTaluka: "Test Block",
     remarks: "This is a test submission from Apps Script",
     requiredDocuments: [],
     actionTaken: "Test action",
