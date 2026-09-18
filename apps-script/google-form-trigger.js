@@ -1,34 +1,30 @@
 /**
  * Google Apps Script - Show Cause Form Submission Trigger
  *
- * SETUP INSTRUCTIONS:
- * 1. Open the Google Sheet linked to your Google Form
- * 2. Go to Extensions > Apps Script
- * 3. Paste this entire file into the script editor
- * 4. Update API_ENDPOINT with your deployed dashboard URL
- * 5. Update API_KEY to match INTEGRATION_API_KEY in your .env.local
- * 6. Run createTrigger() once to set up the form submit trigger
- * 7. Authorize the script when prompted
- *
- * COLUMN MAPPING (adjust indices if your form columns differ):
- * Column A (0): Timestamp
- * Column B (1): Hospital Name
- * Column C (2): Hospital ID
- * Column D (3): District
- * Column E (4): Block/Taluka
- * Column F (5): Remarks
- * Column G (6): Required Documents (optional, comma-separated)
- * Column H (7): Action Taken
+ * SETUP:
+ * 1. Update API_ENDPOINT and API_KEY below
+ * 2. Run createTrigger() ONCE
+ * 3. Run testConnection() to verify it works
  */
 
 const API_ENDPOINT =
-  "https://your-deployed-domain.com/api/integrations/google-form/submissions";
-const API_KEY = "your-integration-api-key";
+  "https://YOUR-APP.vercel.app/api/integrations/google-form/submissions";
+const API_KEY = "c8107110-e7ef-4f51-97b2-31a338035a1c";
+
+/**
+ * Column mapping (adjust if your form columns differ):
+ * A(0)=Timestamp, B(1)=Hospital Name, C(2)=Hospital ID,
+ * D(3)=District, E(4)=Block/Taluka, F(5)=Remarks,
+ * G(6)=Required Documents, H(7)=Action Taken
+ */
 
 function onFormSubmit(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var row = e.range.getRow();
   var data = sheet.getRange(row, 1, 1, sheet.getLastColumn()).getValues()[0];
+
+  // Log raw data so we can debug column mapping
+  Logger.log("Raw row data: " + JSON.stringify(data));
 
   var payload = {
     submittedAt: new Date(data[0]).toISOString(),
@@ -49,6 +45,9 @@ function onFormSubmit(e) {
     sourceId: sheet.getName() + "!A" + row,
   };
 
+  Logger.log("Sending payload: " + JSON.stringify(payload));
+  Logger.log("To endpoint: " + API_ENDPOINT);
+
   var options = {
     method: "post",
     contentType: "application/json",
@@ -62,27 +61,60 @@ function onFormSubmit(e) {
   try {
     var response = UrlFetchApp.fetch(API_ENDPOINT, options);
     var code = response.getResponseCode();
+    var body = response.getContentText();
 
-    if (code === 201) {
-      Logger.log("Successfully submitted row " + row);
-    } else if (code === 409) {
-      Logger.log("Duplicate detected for row " + row);
-    } else {
-      Logger.log(
-        "Error submitting row " + row + ": " + response.getContentText()
-      );
-    }
+    Logger.log("Response code: " + code);
+    Logger.log("Response body: " + body);
   } catch (error) {
-    Logger.log("Exception submitting row " + row + ": " + error.toString());
+    Logger.log("EXCEPTION: " + error.toString());
   }
 }
 
-/** Run this function ONCE to create the form submission trigger */
+/** Run this ONCE to create the trigger */
 function createTrigger() {
+  // Remove any existing triggers first
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    ScriptApp.deleteTrigger(triggers[i]);
+  }
+
   ScriptApp.newTrigger("onFormSubmit")
     .forSpreadsheet(SpreadsheetApp.getActiveSpreadsheet())
     .onFormSubmit()
     .create();
 
   Logger.log("Trigger created successfully!");
+}
+
+/** Run this manually to test the connection without submitting a form */
+function testConnection() {
+  var testPayload = {
+    hospitalName: "Test Hospital",
+    hospitalId: "TEST-001",
+    district: "Test District",
+    blockTaluka: "Test Block",
+    remarks: "This is a test submission from Apps Script",
+    requiredDocuments: [],
+    actionTaken: "Test action",
+    submittedAt: new Date().toISOString(),
+    sourceId: "test-manual",
+  };
+
+  var options = {
+    method: "post",
+    contentType: "application/json",
+    headers: {
+      "x-api-key": API_KEY,
+    },
+    payload: JSON.stringify(testPayload),
+    muteHttpExceptions: true,
+  };
+
+  try {
+    var response = UrlFetchApp.fetch(API_ENDPOINT, options);
+    Logger.log("Status: " + response.getResponseCode());
+    Logger.log("Body: " + response.getContentText());
+  } catch (error) {
+    Logger.log("ERROR: " + error.toString());
+  }
 }
