@@ -56,7 +56,7 @@ export default function StatusChart() {
         <CardHeader>
           <CardTitle className="text-base">By Status</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-[250px] text-muted-foreground">
+        <CardContent className="flex items-center justify-center h-[220px] text-muted-foreground">
           No data yet
         </CardContent>
       </Card>
@@ -69,16 +69,17 @@ export default function StatusChart() {
         <CardTitle className="text-base">By Status</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={220}>
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="50%"
-              innerRadius={50}
-              outerRadius={90}
+              innerRadius={40}
+              outerRadius={70}
               dataKey="value"
               label={({ name, value }) => `${name}: ${value}`}
+              fontSize={12}
             >
               {chartData.map((entry) => (
                 <Cell

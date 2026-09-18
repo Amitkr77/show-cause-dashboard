@@ -19,7 +19,7 @@ interface FiltersProps {
 
 export default function Filters({ filters, onChange, onClear }: FiltersProps) {
   return (
-    <div className="flex flex-wrap items-end gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 items-end">
       <div className="space-y-1">
         <label className="text-xs text-muted-foreground">Status</label>
         <Select
@@ -28,7 +28,7 @@ export default function Filters({ filters, onChange, onClear }: FiltersProps) {
             onChange({ status: val === "ALL" ? "" : (val as ShowcauseFilters["status"]) })
           }
         >
-          <SelectTrigger className="w-[160px]">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent>
@@ -47,7 +47,7 @@ export default function Filters({ filters, onChange, onClear }: FiltersProps) {
           placeholder="District"
           value={filters.district || ""}
           onChange={(e) => onChange({ district: e.target.value })}
-          className="w-[160px]"
+          className="w-full"
         />
       </div>
 
@@ -57,7 +57,7 @@ export default function Filters({ filters, onChange, onClear }: FiltersProps) {
           placeholder="Block/Taluka"
           value={filters.blockTaluka || ""}
           onChange={(e) => onChange({ blockTaluka: e.target.value })}
-          className="w-[160px]"
+          className="w-full"
         />
       </div>
 
@@ -67,7 +67,7 @@ export default function Filters({ filters, onChange, onClear }: FiltersProps) {
           type="date"
           value={filters.startDate || ""}
           onChange={(e) => onChange({ startDate: e.target.value })}
-          className="w-[150px]"
+          className="w-full"
         />
       </div>
 
@@ -77,11 +77,11 @@ export default function Filters({ filters, onChange, onClear }: FiltersProps) {
           type="date"
           value={filters.endDate || ""}
           onChange={(e) => onChange({ endDate: e.target.value })}
-          className="w-[150px]"
+          className="w-full"
         />
       </div>
 
-      <Button variant="outline" size="sm" onClick={onClear}>
+      <Button variant="outline" size="sm" onClick={onClear} className="w-full">
         Clear
       </Button>
     </div>

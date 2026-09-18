@@ -28,7 +28,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
       <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-sm font-medium mt-0.5">{value || "-"}</p>
+      <p className="text-sm font-medium mt-0.5 break-words">{value || "-"}</p>
     </div>
   );
 }
@@ -37,9 +37,9 @@ export default function DetailCard({ data }: DetailCardProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <CardTitle className="text-xl">{data.hospitalName}</CardTitle>
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
+          <div className="min-w-0">
+            <CardTitle className="text-lg sm:text-xl break-words">{data.hospitalName}</CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
               ID: {data.hospitalId}
             </p>

@@ -65,9 +65,9 @@ export default function RecentSubmissions() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Hospital</TableHead>
-                  <TableHead>District</TableHead>
+                  <TableHead className="hidden sm:table-cell">District</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead className="hidden sm:table-cell">Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -80,14 +80,17 @@ export default function RecentSubmissions() {
                       >
                         {item.hospitalName}
                       </Link>
+                      <div className="text-xs text-muted-foreground sm:hidden">
+                        {item.district} &middot; {formatDate(item.submittedAt)}
+                      </div>
                     </TableCell>
-                    <TableCell>{item.district}</TableCell>
+                    <TableCell className="hidden sm:table-cell">{item.district}</TableCell>
                     <TableCell>
                       <Badge variant={statusVariant[item.status]}>
                         {statusLabel[item.status]}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-muted-foreground">
+                    <TableCell className="hidden sm:table-cell text-muted-foreground">
                       {formatDate(item.submittedAt)}
                     </TableCell>
                   </TableRow>

@@ -7,10 +7,10 @@ import RecentSubmissions from "@/components/dashboard/recent-submissions";
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+    <div className="space-y-4 sm:space-y-6">
+      <h1 className="text-xl sm:text-2xl font-bold">Dashboard</h1>
       <StatsCards />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <StatusChart />
         <DistrictChart />
       </div>

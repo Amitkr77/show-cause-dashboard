@@ -37,7 +37,7 @@ export default function DistrictChart() {
         <CardHeader>
           <CardTitle className="text-base">By District</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-[250px] text-muted-foreground">
+        <CardContent className="flex items-center justify-center h-[220px] text-muted-foreground">
           No data yet
         </CardContent>
       </Card>
@@ -50,15 +50,16 @@ export default function DistrictChart() {
         <CardTitle className="text-base">By District</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={chartData} margin={{ bottom: 60 }}>
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={chartData} margin={{ bottom: 50, left: -10 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="district"
-              angle={-45}
+              angle={-35}
               textAnchor="end"
-              fontSize={12}
+              fontSize={11}
               interval={0}
+              tick={{ dy: 5 }}
             />
             <YAxis allowDecimals={false} />
             <Tooltip />

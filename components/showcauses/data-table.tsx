@@ -56,12 +56,14 @@ export default function DataTable({
   const SortHeader = ({
     field,
     children,
+    className,
   }: {
     field: string;
     children: React.ReactNode;
+    className?: string;
   }) => (
     <TableHead
-      className="cursor-pointer select-none hover:text-foreground"
+      className={`cursor-pointer select-none hover:text-foreground ${className || ""}`}
       onClick={() => onSort(field)}
     >
       <span className="flex items-center gap-1">
@@ -98,33 +100,36 @@ export default function DataTable({
           <TableHeader>
             <TableRow>
               <SortHeader field="hospitalName">Hospital</SortHeader>
-              <TableHead>Hospital ID</TableHead>
-              <SortHeader field="district">District</SortHeader>
-              <TableHead>Block</TableHead>
+              <TableHead className="hidden md:table-cell">Hospital ID</TableHead>
+              <SortHeader field="district" className="hidden sm:table-cell">District</SortHeader>
+              <TableHead className="hidden lg:table-cell">Block</TableHead>
               <SortHeader field="status">Status</SortHeader>
-              <TableHead>Action Taken</TableHead>
-              <SortHeader field="submittedAt">Submitted</SortHeader>
+              <TableHead className="hidden lg:table-cell">Action Taken</TableHead>
+              <SortHeader field="submittedAt" className="hidden sm:table-cell">Submitted</SortHeader>
               <TableHead>View</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((item) => (
               <TableRow key={item._id}>
-                <TableCell className="font-medium">
-                  {item.hospitalName}
+                <TableCell>
+                  <div className="font-medium">{item.hospitalName}</div>
+                  <div className="text-xs text-muted-foreground sm:hidden">
+                    {item.district} &middot; {formatDate(item.submittedAt)}
+                  </div>
                 </TableCell>
-                <TableCell>{item.hospitalId}</TableCell>
-                <TableCell>{item.district}</TableCell>
-                <TableCell>{item.blockTaluka}</TableCell>
+                <TableCell className="hidden md:table-cell">{item.hospitalId}</TableCell>
+                <TableCell className="hidden sm:table-cell">{item.district}</TableCell>
+                <TableCell className="hidden lg:table-cell">{item.blockTaluka}</TableCell>
                 <TableCell>
                   <Badge variant={statusVariant[item.status]}>
                     {statusLabel[item.status]}
                   </Badge>
                 </TableCell>
-                <TableCell className="max-w-[200px] truncate">
+                <TableCell className="hidden lg:table-cell max-w-[200px] truncate">
                   {item.actionTaken}
                 </TableCell>
-                <TableCell className="text-muted-foreground">
+                <TableCell className="hidden sm:table-cell text-muted-foreground">
                   {formatDate(item.submittedAt)}
                 </TableCell>
                 <TableCell>
@@ -141,7 +146,7 @@ export default function DataTable({
       </div>
 
       {pagination && pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
           <p className="text-sm text-muted-foreground">
             Showing {(pagination.page - 1) * pagination.limit + 1}-
             {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
@@ -157,7 +162,7 @@ export default function DataTable({
               Previous
             </Button>
             <span className="text-sm">
-              Page {pagination.page} of {pagination.totalPages}
+              {pagination.page} / {pagination.totalPages}
             </span>
             <Button
               variant="outline"

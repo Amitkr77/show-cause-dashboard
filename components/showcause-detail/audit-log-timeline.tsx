@@ -27,8 +27,8 @@ export default function AuditLogTimeline({ entries }: AuditLogTimelineProps) {
               <div key={i} className="relative">
                 <div className="absolute -left-6 top-1 w-4 h-4 rounded-full bg-primary border-2 border-background" />
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="text-xs">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <Badge variant="secondary" className="text-xs truncate max-w-[150px] sm:max-w-none">
                       {entry.action}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
@@ -36,7 +36,7 @@ export default function AuditLogTimeline({ entries }: AuditLogTimelineProps) {
                     </span>
                   </div>
                   {entry.note && (
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground break-words">
                       {entry.note}
                     </p>
                   )}
