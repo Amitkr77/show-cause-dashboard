@@ -142,7 +142,7 @@ export default function SubmitPage() {
                 <Select
                   value={form.actionTaken}
                   onValueChange={(val) =>
-                    setForm((prev) => ({ ...prev, actionTaken: val }))
+                    setForm((prev) => ({ ...prev, actionTaken: val ?? "" }))
                   }
                 >
                   <SelectTrigger className="w-full">

@@ -78,7 +78,7 @@ export default function StatusChart() {
                 ))}
               </Pie>
               <Tooltip
-                formatter={(value: number) => [`${value} (${Math.round((value / total) * 100)}%)`, "Count"]}
+                formatter={(value) => [`${value} (${Math.round((Number(value) / total) * 100)}%)`, "Count"]}
                 contentStyle={{ borderRadius: "8px", fontSize: "13px" }}
               />
             </PieChart>

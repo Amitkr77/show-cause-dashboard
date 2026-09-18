@@ -49,7 +49,7 @@ export default function Filters({ filters, onChange, onClear }: FiltersProps) {
         <Select
           value={filters.actionTaken || "ALL"}
           onValueChange={(val) =>
-            onChange({ actionTaken: val === "ALL" ? "" : val })
+            onChange({ actionTaken: val === "ALL" ? "" : val ?? "" })
           }
         >
           <SelectTrigger className="w-full">
