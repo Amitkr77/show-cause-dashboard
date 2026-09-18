@@ -10,10 +10,10 @@ import { ACTION_LABELS, STATUS_LABELS } from "@/lib/constants";
 import type { ShowcauseStatus } from "@/types";
 
 const statusStyles: Record<ShowcauseStatus, string> = {
-  NEW: "bg-amber-100 text-amber-700 hover:bg-amber-100",
-  UNDER_REVIEW: "bg-violet-100 text-violet-700 hover:bg-violet-100",
-  RESOLVED: "bg-emerald-100 text-emerald-700 hover:bg-emerald-100",
-  CLOSED: "bg-gray-100 text-gray-600 hover:bg-gray-100",
+  NEW: "bg-[#F4B942]/15 text-[#B8860B] hover:bg-[#F4B942]/15",
+  UNDER_REVIEW: "bg-[#7C6CF0]/15 text-[#5B4CC0] hover:bg-[#7C6CF0]/15",
+  RESOLVED: "bg-[#34C38F]/15 text-[#1D8A5F] hover:bg-[#34C38F]/15",
+  CLOSED: "bg-gray-100 text-gray-500 hover:bg-gray-100",
 };
 
 export default function RecentSubmissions() {
@@ -24,14 +24,14 @@ export default function RecentSubmissions() {
   });
 
   return (
-    <Card className="shadow-sm">
-      <CardHeader className="flex flex-row items-center justify-between pb-3">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+    <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
+      <CardHeader className="flex flex-row items-center justify-between pb-4">
+        <CardTitle className="text-sm font-semibold text-foreground">
           Recent Submissions
         </CardTitle>
         <Link
           href="/showcauses"
-          className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+          className="text-xs text-primary hover:text-primary/80 font-medium transition-colors"
         >
           View all →
         </Link>
@@ -40,11 +40,11 @@ export default function RecentSubmissions() {
         {isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Skeleton key={i} className="h-14 w-full rounded-lg" />
+              <Skeleton key={i} className="h-16 w-full rounded-xl" />
             ))}
           </div>
         ) : !data?.data?.length ? (
-          <p className="text-center py-10 text-muted-foreground text-sm">
+          <p className="text-center py-12 text-muted-foreground text-sm">
             No submissions yet
           </p>
         ) : (
@@ -53,17 +53,17 @@ export default function RecentSubmissions() {
               <Link
                 key={item._id}
                 href={`/showcauses/${item._id}`}
-                className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors group"
+                className="flex items-center justify-between p-3.5 rounded-xl hover:bg-secondary/60 transition-all duration-200 group"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-sm truncate group-hover:text-blue-600 transition-colors">
+                  <p className="font-medium text-sm truncate group-hover:text-primary transition-colors">
                     {item.hospitalName}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  <p className="text-xs text-muted-foreground mt-1">
                     {item.district} · {ACTION_LABELS[item.actionTaken] || item.actionTaken} · {formatDate(item.submittedAt)}
                   </p>
                 </div>
-                <Badge className={`ml-3 shrink-0 text-xs font-medium ${statusStyles[item.status]}`}>
+                <Badge className={`ml-3 shrink-0 text-[11px] font-medium border-0 ${statusStyles[item.status]}`}>
                   {STATUS_LABELS[item.status]}
                 </Badge>
               </Link>

@@ -17,12 +17,12 @@ export default function StatusChart() {
 
   if (isLoading) {
     return (
-      <Card className="shadow-sm">
+      <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Status Breakdown</CardTitle>
+          <CardTitle className="text-sm font-semibold text-foreground">Status Breakdown</CardTitle>
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-[200px] w-full rounded-lg" />
+          <Skeleton className="h-55 w-full rounded-xl" />
         </CardContent>
       </Card>
     );
@@ -38,11 +38,11 @@ export default function StatusChart() {
 
   if (chartData.length === 0) {
     return (
-      <Card className="shadow-sm">
+      <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Status Breakdown</CardTitle>
+          <CardTitle className="text-sm font-semibold text-foreground">Status Breakdown</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-[200px] text-muted-foreground text-sm">
+        <CardContent className="flex items-center justify-center h-55 text-muted-foreground text-sm">
           No data yet
         </CardContent>
       </Card>
@@ -52,23 +52,23 @@ export default function StatusChart() {
   const total = chartData.reduce((acc, d) => acc + d.value, 0);
 
   return (
-    <Card className="shadow-sm">
+    <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">Status Breakdown</CardTitle>
+        <CardTitle className="text-sm font-semibold text-foreground">Status Breakdown</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col sm:flex-row items-center gap-4">
+        <div className="flex flex-col items-center gap-4">
           <ResponsiveContainer width="100%" height={180}>
             <PieChart>
               <Pie
                 data={chartData}
                 cx="50%"
                 cy="50%"
-                innerRadius={45}
-                outerRadius={75}
+                innerRadius={50}
+                outerRadius={80}
                 dataKey="value"
-                strokeWidth={2}
-                stroke="hsl(var(--background))"
+                strokeWidth={3}
+                stroke="#ffffff"
               >
                 {chartData.map((entry) => (
                   <Cell
@@ -79,19 +79,19 @@ export default function StatusChart() {
               </Pie>
               <Tooltip
                 formatter={(value) => [`${value} (${Math.round((Number(value) / total) * 100)}%)`, "Count"]}
-                contentStyle={{ borderRadius: "8px", fontSize: "13px" }}
+                contentStyle={{ borderRadius: "12px", fontSize: "13px", border: "none", boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }}
               />
             </PieChart>
           </ResponsiveContainer>
-          <div className="flex flex-row sm:flex-col gap-3 sm:gap-2 flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
             {chartData.map((entry) => (
               <div key={entry.status} className="flex items-center gap-2 text-sm">
                 <div
-                  className="w-3 h-3 rounded-full shrink-0"
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
                   style={{ backgroundColor: STATUS_COLORS[entry.status] }}
                 />
-                <span className="text-muted-foreground">{entry.name}</span>
-                <span className="font-semibold">{entry.value}</span>
+                <span className="text-muted-foreground text-xs">{entry.name}</span>
+                <span className="font-semibold text-xs">{entry.value}</span>
               </div>
             ))}
           </div>

@@ -50,9 +50,12 @@ export default function ShowcausesPage() {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <h1 className="text-xl sm:text-2xl font-bold">Show Cause Notices</h1>
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Show Cause Notices</h1>
+          <p className="text-sm text-muted-foreground mt-1">Manage and track all notices</p>
+        </div>
         <ExportButton filters={filters} />
       </div>
 

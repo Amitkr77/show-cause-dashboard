@@ -49,7 +49,7 @@ export default function ExportButton({ filters }: ExportButtonProps) {
             className="fixed inset-0 z-40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-1 z-50 bg-popover border rounded-lg shadow-lg py-1 min-w-[120px]">
+          <div className="absolute right-0 top-full mt-1 z-50 bg-popover border-0 rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] py-1 min-w-30">
             {formats.map((f) => (
               <button
                 key={f.value}

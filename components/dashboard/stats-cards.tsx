@@ -8,9 +8,10 @@ const statConfig = [
   {
     key: "total" as const,
     label: "Total Notices",
-    gradient: "from-blue-500 to-blue-600",
+    accent: "#E8725C",
+    bgAccent: "bg-[#E8725C]/10",
     icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
       </svg>
     ),
@@ -18,9 +19,10 @@ const statConfig = [
   {
     key: "NEW" as const,
     label: "New",
-    gradient: "from-amber-400 to-orange-500",
+    accent: "#F4B942",
+    bgAccent: "bg-[#F4B942]/10",
     icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
       </svg>
     ),
@@ -28,9 +30,10 @@ const statConfig = [
   {
     key: "UNDER_REVIEW" as const,
     label: "Under Review",
-    gradient: "from-violet-500 to-purple-600",
+    accent: "#7C6CF0",
+    bgAccent: "bg-[#7C6CF0]/10",
     icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
       </svg>
     ),
@@ -38,9 +41,10 @@ const statConfig = [
   {
     key: "RESOLVED" as const,
     label: "Resolved",
-    gradient: "from-emerald-400 to-green-600",
+    accent: "#34C38F",
+    bgAccent: "bg-[#34C38F]/10",
     icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
       </svg>
     ),
@@ -52,16 +56,16 @@ export default function StatsCards() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Skeleton key={i} className="h-24 sm:h-28 rounded-xl" />
+          <Skeleton key={i} className="h-30 rounded-2xl" />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
       {statConfig.map((stat) => {
         const value =
           stat.key === "total"
@@ -71,19 +75,19 @@ export default function StatsCards() {
         return (
           <Card
             key={stat.key}
-            className={`bg-gradient-to-br ${stat.gradient} text-white border-0 shadow-lg`}
+            className="bg-card border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl hover:shadow-[0_2px_8px_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)] transition-shadow duration-300"
           >
-            <CardContent className="p-4 sm:p-5">
-              <div className="flex items-center justify-between">
+            <CardContent className="p-5 sm:p-6">
+              <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-white/80 text-xs sm:text-sm font-medium">
+                  <p className="text-muted-foreground text-xs sm:text-sm font-medium tracking-wide">
                     {stat.label}
                   </p>
-                  <p className="text-2xl sm:text-3xl font-bold mt-1">
+                  <p className="text-3xl sm:text-4xl font-bold mt-2 tracking-tight" style={{ color: stat.accent }}>
                     {value}
                   </p>
                 </div>
-                <div className="bg-white/20 rounded-lg p-2 hidden sm:block">
+                <div className={`${stat.bgAccent} rounded-xl p-2.5`} style={{ color: stat.accent }}>
                   {stat.icon}
                 </div>
               </div>

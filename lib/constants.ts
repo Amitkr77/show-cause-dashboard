@@ -14,10 +14,10 @@ export const ACTION_LABELS: Record<string, string> = Object.fromEntries(
 );
 
 export const STATUS_COLORS: Record<string, string> = {
-  NEW: "#f59e0b",
-  UNDER_REVIEW: "#6366f1",
-  RESOLVED: "#10b981",
-  CLOSED: "#6b7280",
+  NEW: "#F4B942",
+  UNDER_REVIEW: "#7C6CF0",
+  RESOLVED: "#34C38F",
+  CLOSED: "#9CA3AF",
 };
 
 export const STATUS_LABELS: Record<string, string> = {

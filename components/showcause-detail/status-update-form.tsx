@@ -66,19 +66,19 @@ export default function StatusUpdateForm({
   };
 
   return (
-    <Card>
+    <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
       <CardHeader>
-        <CardTitle className="text-base">Update Status</CardTitle>
+        <CardTitle className="text-base font-semibold">Update Status</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <label className="text-sm font-medium">Status</label>
             <Select
               value={status}
               onValueChange={(val) => setStatus(val as ShowcauseStatus)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="rounded-xl">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -90,23 +90,24 @@ export default function StatusUpdateForm({
             </Select>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <label className="text-sm font-medium">Note</label>
             <Textarea
               placeholder="Add a note for the audit log..."
               value={note}
               onChange={(e) => setNote(e.target.value)}
               rows={3}
+              className="rounded-xl"
             />
           </div>
 
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" disabled={loading} className="w-full rounded-xl">
             {loading ? "Updating..." : "Update"}
           </Button>
 
           {message && (
             <p
-              className={`text-sm ${message.type === "success" ? "text-green-600" : "text-red-600"}`}
+              className={`text-sm text-center ${message.type === "success" ? "text-[#1D8A5F]" : "text-red-600"}`}
             >
               {message.text}
             </p>

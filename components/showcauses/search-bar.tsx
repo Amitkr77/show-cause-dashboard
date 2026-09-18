@@ -25,7 +25,7 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
       placeholder="Search by hospital name, ID, or district..."
       value={local}
       onChange={(e) => setLocal(e.target.value)}
-      className="w-full sm:max-w-md"
+      className="w-full sm:max-w-md rounded-xl"
     />
   );
 }

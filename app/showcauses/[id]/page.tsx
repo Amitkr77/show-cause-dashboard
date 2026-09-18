@@ -43,13 +43,13 @@ export default function ShowcauseDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 sm:gap-4">
+      <div className="flex items-center gap-3 sm:gap-4">
         <Link href="/showcauses">
-          <Button variant="ghost" size="sm">
+          <Button variant="outline" size="sm" className="rounded-xl">
             ← Back
           </Button>
         </Link>
-        <h1 className="text-xl sm:text-2xl font-bold">Show Cause Detail</h1>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Show Cause Detail</h1>
       </div>
 
       <DetailCard data={data} />

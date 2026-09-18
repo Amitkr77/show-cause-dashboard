@@ -18,12 +18,12 @@ export default function TrendChart() {
 
   if (isLoading) {
     return (
-      <Card className="shadow-sm">
+      <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">30-Day Trend</CardTitle>
+          <CardTitle className="text-sm font-semibold text-foreground">30-Day Trend</CardTitle>
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-[200px] w-full rounded-lg" />
+          <Skeleton className="h-60 w-full rounded-xl" />
         </CardContent>
       </Card>
     );
@@ -36,11 +36,11 @@ export default function TrendChart() {
 
   if (chartData.length === 0) {
     return (
-      <Card className="shadow-sm">
+      <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">30-Day Trend</CardTitle>
+          <CardTitle className="text-sm font-semibold text-foreground">30-Day Trend</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-[200px] text-muted-foreground text-sm">
+        <CardContent className="flex items-center justify-center h-60 text-muted-foreground text-sm">
           No data yet
         </CardContent>
       </Card>
@@ -48,36 +48,47 @@ export default function TrendChart() {
   }
 
   return (
-    <Card className="shadow-sm">
+    <Card className="border-0 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] rounded-2xl">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">30-Day Trend</CardTitle>
+        <CardTitle className="text-sm font-semibold text-foreground">30-Day Trend</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={200}>
-          <AreaChart data={chartData} margin={{ left: -15 }}>
+        <ResponsiveContainer width="100%" height={240}>
+          <AreaChart data={chartData} margin={{ left: -15, right: 5, top: 5 }}>
             <defs>
               <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                <stop offset="5%" stopColor="#E8725C" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#E8725C" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e8e6e1" vertical={false} />
             <XAxis
               dataKey="date"
               fontSize={11}
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: "#71717a" }}
+              axisLine={false}
+              tickLine={false}
             />
             <YAxis
               allowDecimals={false}
               fontSize={11}
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: "#71717a" }}
+              axisLine={false}
+              tickLine={false}
             />
-            <Tooltip contentStyle={{ borderRadius: "8px", fontSize: "13px" }} />
+            <Tooltip
+              contentStyle={{
+                borderRadius: "12px",
+                fontSize: "13px",
+                border: "none",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              }}
+            />
             <Area
               type="monotone"
               dataKey="count"
-              stroke="#3b82f6"
-              strokeWidth={2}
+              stroke="#E8725C"
+              strokeWidth={2.5}
               fill="url(#trendGradient)"
             />
           </AreaChart>

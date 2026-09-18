@@ -9,23 +9,27 @@ import RecentSubmissions from "@/components/dashboard/recent-submissions";
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-sm text-muted-foreground mt-1">
           Overview of all show cause notices
         </p>
       </div>
 
       <StatsCards />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Bento grid: trend takes 2/3, status pie takes 1/3 */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className="lg:col-span-2">
+          <TrendChart />
+        </div>
         <StatusChart />
-        <ActionChart />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <TrendChart />
+      {/* Second row: action + district side by side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <ActionChart />
         <DistrictChart />
       </div>
 
